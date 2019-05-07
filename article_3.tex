@@ -1,0 +1,193 @@
+% chktex-file 13
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Stylish Article
+% LaTeX Template
+% Version 2.1 (1/10/15)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Mathias Legrand (legrand.mathias@gmail.com) 
+% With extensive modifications by:
+% Vel (vel@latextemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[fleqn,10pt]{SelfArx} % Document font size and equations flushed left
+
+\usepackage[ngerman]{babel} % Specify a different language here - english by default
+\usepackage{csquotes}
+
+\usepackage{biblatex} 
+\addbibresource{../literatur.bib}
+
+\usepackage{lipsum} % Required to insert dummy text. To be removed otherwise
+
+%----------------------------------------------------------------------------------------
+%	COLUMNS
+%----------------------------------------------------------------------------------------
+
+\setlength{\columnsep}{0.55cm} % Distance between the two columns of text
+\setlength{\fboxrule}{0.75pt} % Width of the border around the abstract
+
+%----------------------------------------------------------------------------------------
+%	COLORS
+%----------------------------------------------------------------------------------------
+
+\definecolor{color1}{RGB}{0,0,90} % Color of the article title and sections
+\definecolor{color2}{RGB}{0,20,20} % Color of the boxes behind the abstract and headings
+
+%----------------------------------------------------------------------------------------
+%	HYPERLINKS
+%----------------------------------------------------------------------------------------
+
+\usepackage{hyperref} % Required for hyperlinks
+\hypersetup{hidelinks,colorlinks,breaklinks=true,urlcolor=color2,citecolor=color1,linkcolor=color1,bookmarksopen=false,pdftitle={Title},pdfauthor={Author}}
+
+%----------------------------------------------------------------------------------------
+%	ARTICLE INFORMATION
+%----------------------------------------------------------------------------------------
+
+\JournalInfo{Handout, \today} % Journal information
+\Archive{Dieses Werk ist unter einer Creative Commons Lizenz vom Typ Namensnennung 2.0 Deutschland zugänglich. Um eine Kopie dieser Lizenz einzusehen, konsultieren Sie http://creativecommons.org/licenses/by/2.0/de/ oder wenden Sie sich brieflich an Creative Commons, Postfach 1866, Mountain View, California, 94042, USA.} % Additional notes (e.g. copyright, DOI, review/research article)
+
+\PaperTitle{Secure Shell (SSH)} % Article title
+
+\Authors{Marvin Gaube\textsuperscript{1}, Sidney Kuyateh\textsuperscript{1}, Steffen Walter\textsuperscript{1}} % Authors
+\affiliation{\textsuperscript{1}\textit{Studiengang Informationstechnik, Fakultät Technik, Duale Schule Baden-Württemberg, Stuttgart}} % Author affiliation
+\affiliation{*\textbf{Corresponding author}: inf17001@lehre.dhbw-stuttgart.de} % Corresponding author
+
+\Keywords{} % Keywords - if you don't want any simply remove all the text between the curly brackets
+\newcommand{\keywordname}{Keywords} % Defines the keywords heading name
+
+%----------------------------------------------------------------------------------------
+%	ABSTRACT
+%----------------------------------------------------------------------------------------
+
+\Abstract{Das vorliegende Handout soll einen kurzen Überblick über den Aufbau und die Anwendung des Protokolls \enquote{SSH} geben. Nach einem kurzen Einstieg in die Geschichte werden hierzu die drei standardisierten Schichten mit zugehörigen RFC's betrachtet:
+\begin{itemize}
+	\item SSH Transport Layer Protocol (RFC 4253)
+	\item SSH Authentication Protocol (RFC 4252)
+	\item SSH Connection Protocol (RFC 4254)
+\end{itemize}
+Abschließend wird kurz auf die Implementierungen eingegangen.}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\flushbottom % Makes all text pages the same height
+
+\maketitle % Print the title and abstract box
+
+\tableofcontents % Print the contents section
+
+\thispagestyle{empty} % Removes page numbering from the first page
+
+%----------------------------------------------------------------------------------------
+%	ARTICLE CONTENTS
+%----------------------------------------------------------------------------------------
+
+\section*{Einleitung} % The \section*{} command stops section numbering
+
+\addcontentsline{toc}{section}{Einleitung} % Adds this section to the table of contents
+
+
+%------------------------------------------------
+\section{Vorgänger}
+Sowohl das Protokoll also auch die zugehörigen Werkzeuge zu SSH haben Vorgänger welche im Folgenden kurz genannt werden.
+\subsection{Telnet}
+Das Teletype Network (Telnet) Protokoll wurde 1969 im Rahmen eines Forschungsprojekts entwickelt. Es handelt sich um ein Protokoll welches den zeichenorientierten Datenaustausch über eine TCP Verbingung beschreibt. Telnet verfolgt dabei eine Client/Server-Modell. Der große Nachteil an diesem Protokoll ist es, dass Daten unverschlüsselt übers Netzwerk ausgetauscht werden. Gerade bei Zugangsdaten ist dies sehr problematisch.
+\subsection{rlogin, rsh, rcp}
+Bei \enquote{Remote Login}, \enquote{Remote Shell} und \enquote{Remote Copy} handelt es sich um Werkzeuge die alle das Telnet Protokoll verwenden. Während rlogin und rsh zur Fernsteuerung eines Computersystems verwendet werden können, handelt es sich bei rcp um ein Programm welches es ermöglicht, Kopiervorgänge über Computergrenzen hinaus zu realisieren. 
+\section{Geschichte von SSH}
+Von der Entwicklung bis heute hat sich einiges getan im Kontext des SSH Protokolls und seiner Werkzeuge.
+\subsection{SSH-1}
+Nachdem er Opfer eines Hackerangriffs wurde, wobei sein Passwort in fremde Hände gelangte, entwickelte Tatu Ylönen im Jahr 1995 die ersten Implementierung von SSH. Diese Software wurde zuerst unter einer freien Lizenz veröffentlicht. Auf Grund einer Vielzahl an Support Anfragen gründete Ylönen bald die Firma SSH Communications Security Corp. (SCS) um kommerziellen Support anbieten zu können.
+Im selben Jahr brachte Ylönen die Dokumentation des Protokolls auch bei der IEFT als Internet Draft ein.
+\subsection{SSH-2}
+Im Jahr 1996 veröffentlichte SCS die Version 2 des SSH Protokolls, welches um einige nützliche Funktionen für Unternehmen erweitert wurde. Die IEFT bildete daraufhin eine Arbeitsgruppe, welche sich damit befasste, das Protokoll zu Gunsten der Allgemeinheit zu Standardisieren. Diese Arbeitsgruppe brachte 1997 den ersten Internet Draft für SSH-2.0 ein. Im folgenden Jahr veröffentlichte SCS ihre erste Implementierung von SSH-2.0, welche allerdings unter einer weitaus restriktiveren Lizenz veröffentlicht wurde als sein Vorgänger. Aus diesem Grund und auf Grund des Erscheinens von OpenSSH konnte sich SSH2 am Markt nie durchsetzten.            \subsection{OpenSSH}
+Die Lizenzpolitik von SCS motivierte einige Entwickler des OpenBSD Projekts sich zusammen zu tun und an der letzten freien Veröffentlichung von SSH1 (Version 1.2.12) weiter zu entwickeln. Diese Initiative hat bis heute großen Erfolg - so schaffte es OpenSSH heute zu einer der wichtigsten SSH Implementierungen zu werden, welche neben OpenBSD auch auf Linux, Solaris, AIX, Mac OS X und weitere Plattformen portiert werden konnte. SCS entwickelt seinerseits weiter an ihrer Implementierung, ist aber neben OpenSSH zu einem eher kleinen Faktor geworden.
+\section{Komponenten}
+SSH besteht im wesentlichen aus drei Komponenten, deren Zusammenspiel im RFC4251 beschrieben wird:
+\begin{itemize}
+	\item SSH Transport Layer Protocol (RFC 4253)
+	\item SSH Authentication Protocol (RFC 4252)
+	\item SSH Connection Protocol (RFC 4254)
+\end{itemize}
+Üblicherweise werden bei einem Verbindungsaufbau die verschiedenen Teilprotokolle in dieser Reihenfolge durchlaufen: Zunächst wird der Transport Layer aufgebaut, auf diesem wird der Nutzer authentifiziert, und danach die eigentliche Nutzdatenverbindung aufgebaut.\newline
+Im RFC4250 sind allgemeine Informationen definiert, zum Beispiel die zu den Kommandos gehörenden Enumerationen.
+\subsection{Transport Layer Protocol}
+Dieser Layer ist im RFC4253 definiert.\\	
+Im TCP/IP Protokollstapel läuft SSH als Application im Layer 5-7, und verwendet TCP im Layer 4. Dem Protokoll wurde der Port 22 zugewiesen.\\	
+Der Paketaufbau sieht so aus:	
+\begin{itemize}	
+	\item uint32 packet\_length (ggf. encrypted)	
+	\item byte padding\_length (ggf. encrypted)	
+	\item byte[] payload; (ggf. encrypted)	
+	\item byte[] random padding; (ggf. encrypted)	
+	\item byte[m] mac (Message Authentication Code - MAC)	
+\end{itemize}	
+Der Handshake läuft vereinfacht folgendermaßen ab:\\	
+Durch KEXINIT einigen sich Client und Server auf die verwendeten Algorithmen.\\	
+Der Key Exchange selbst erfolgt üblicherweise über Diffie-Hellman in Kombination mit dem Hostkey als Authentifizierung.\\	
+Nach SSH\_MSG\_NEWKEYS wird auf die neu verhandelte Verschlüsselung und Message Authentication umgestellt.	
+Der Transport Layer authentifiziert nur den Host gegenüber dem Client, nicht anders herum!	
+Nach dem Aufbau der Verbindung geht es mit SSH\_MSG\_SERVICE\_REQUEST service in den nächsten Layer.\\	
+\enquote{service} ist üblicherweise \enquote{ssh-userauth}.	
+\subsection{Authentication Protocol}
+Die Definition der Authentifizierung erfolgt im RFC 4252.\\	
+Ablauf einer Authentifizierung:\\	
+Client $\rightarrow$ Server: SSH\_MSG\_USERAUTH\_REQUEST (mit Username, Service, Auth-Methode) \\	
+Server $\rightarrow$ Client: SSH\_MSG\_USERAUTH\_FAILURE	
+oder SSH\_MSG\_USERAUTH\_SUCCESS.\\	
+In letzterem Fall erfolgt ein "Upgrade", der gewünschte Service wird gestartet (ssh-connection).\\	
+Folgende Authentifizierungsmethoden sind verfügbar:	
+\begin{itemize}	
+	\item publickey (required)	
+	\item password	
+	\item hostbased	
+	\item none	
+\end{itemize}
+\subsection{Connection Protocol}
+Im Layer des \enquote{Connection Protocols} (RFC4254) liegen die eigentlichen Anwendungen.\\
+Hier ist es möglich, verschiedene Anwendungen über die Selbe Verbindung zu multiplexen - dafür werden sog. \enquote{Channel} verwendet.
+\subsubsection{Interaktive Shell}
+\subsubsection{SSH-Tunnel}
+\subsubsection{X-Forwarding}
+\subsubsection{L3-Tunnel}
+\subsubsection{SCP}
+\subsubsection{SFTP}
+\subsubsection{SSHFS}
+\section{Implementierungen}
+\subsection{SSH Tectia}
+\subsection{OpenSSH}
+\subsection{Putty}
+Putty ist eine reine Client-Implementierung von SSH, die insbesondere unter Windows beliebt ist. Die GUI ist minimal gehalten; es werden viele Versionen und auch andere Protokolle unterstützt.
+\subsection{Dropbear}
+Dropbear ist eine freie, minimale Implementierung. Daher wird Dropbear häufig ein eingebetteten Systemen, wie zum Beispiel OpenWRT, eingesetzt. Nicht benötigte Funktionen können einfach entfernt werden.
+
+
+%\begin{figure}[ht]\centering % Using \begin{figure*} makes the figure take up the entire width of the page
+%\includegraphics[width=\linewidth]{view}
+%\caption{Wide Picture}
+%\label{fig:view}
+%\end{figure*}
+
+
+%------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	REFERENCE LIST
+%----------------------------------------------------------------------------------------
+%\phantomsection%
+\printbibliography%
+\end{document}
