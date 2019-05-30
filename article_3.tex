@@ -105,10 +105,39 @@
 Aufgabenstellung war, mittels Webtechnologien ein Portal zu entwickeln, dass einige dynamische/interaktive Funktionalitäten - insbesondere unter Einbindung externer Schnittstellen - mit einbindet. 
 
 %------------------------------------------------
+\section{Grundlegende Architektur}
+Das Projekt ist in zwei Module aufgeteilt: \textbf{Frontend} und \textbf{Backend}. \\ Das Frontend ist mit HTML, CSS und JavaScript realisiert und läuft komplett Clientseitig, also im Browser. Teilweise kommt das Framework "Vue" zum Einsatz. \\ Das Backend ist ebenfalls in JavaScript mithilfe der Laufzeitumgebung Node.JS realisiert, und übernimmt die Auslieferung des Frontendes, sowie Authentifizierungs- und Proxyaufgaben. Für die HTTP-Schnittstelle kommt das Node-Modul Express zum Einsatz.
+\section{Aufbau der Oberfläche}
+\section{Integration von Mastodon}
+Mastodon ist ein Twitterähnliches, verteiltes soziales Netzwerk. Verteilt bedeutet, dass es beliebig viele Instanzen gibt, deren Nutzer über das sogenannte "ActivityPub"-Protocol miteinander interagieren können. Ziel der Implementierung ist es, dem Nutzer seine persönliche Timeline (die letzten Posts) in einer Kachel anzuzeigen.
+\subsection{Authentifizierung}
+Um die nichtöffentlichen Teile der Mastodon-REST-API nutzen zu können, muss sich der Nutzer dem Server gegenüber authentifizieren. Eine zusätzliche Schwierigkeit ist, dass dies nicht gegenüber einem festen Endpunkt erfolgt, sondern davon abhängt, bei welchem Server (auch: Instanz) der Nutzer registriert ist. Beispiele für solche Instanzen sind "chaos.social" und "mastodon.social". \\
+Der grundlegende Ablauf ist hierbei in Bild \ref{fig:mastodon1} zu sehen. Jede Applikation bekommt von der Mastodon-Instanz eine ID und ein Secret, welches vom Backend automatisch bezogen und gespeichert wird. Hierbei unterstützt das Backend beliebig viele Instanzen, es kommt eine sqlite-Datenbank zum Einsatz (siehe: backend/models/appData.js).\\ Der Client leitet mit Kenntnis der App-ID zur Authentifizierungsseite weiter, bei der der Nutzer unserer App Rechte vergeben oder ablehnen kann. Zurück kommt ein Code, mit dem das Backend (unter Zuhilfenahme des secrets und der ID) einen Token abholen kann. Dieser wird im Browser lokal gespeichert (Cookies).
+\subsection{Anzeige der Timeline}
+Das Frontend führt nach der Authentifizierung alle Kommunikation mit dem Mastodon-Server selbstständig durch. Hierzu wird, entweder das Formular zur Authentifizierung angezeigt, oder per REST die Posts aus der Timeline abgeholt. Diese werden dann, in ein HTML gerendert, in die Kachel geschrieben. Es kommt die fetch-API für HTTP-Anfragen zum Einsatz. \\
+Die Funktion ist in Bild \ref{fig:demo1}, \ref{fig:demo2} und \ref{fig:demo3} zu sehen. Die Implementierung erfolgt in der "mastodon.mjs".
+\begin{figure*}
+\includegraphics[width=\linewidth]{mastodon.jpg}
+\caption{Mastodon Authentication}
+\label{fig:mastodon1}
+\end{figure*}
+\begin{figure*}
+	\includegraphics[width=\linewidth]{images/1.png}
+	\caption{Dashboard mit inaktivem Mastodon}
+	\label{fig:demo1}
+\end{figure*}
+\begin{figure*}
+\includegraphics[width=\linewidth]{images/2.png}
+\caption{Mastodon Authentifizierung bei chaos.social}
+\label{fig:demo2}
+\end{figure*}
 
-
-
-
+\begin{figure*}
+	\includegraphics[width=\linewidth]{images/3.png}
+	\caption{Demo, Mastodon aktiv}
+	\label{fig:demo3}
+\end{figure*}
+\subsection{Schwierigkeiten}
 %\begin{figure}[ht]\centering % Using \begin{figure*} makes the figure take up the entire width of the page
 %\includegraphics[width=\linewidth]{view}
 %\caption{Wide Picture}
