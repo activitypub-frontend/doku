@@ -46,30 +46,31 @@
       \verb http://docs.sequelizejs.com/
       \endverb
     \endentry
-    \entry{nodejs}{online}{}
+    \entry{heise}{online}{}
       \name{author}{1}{}{%
-        {{hash=804b6bedb1db2b625197202b6c72a6db}{%
-           family={Foundation},
-           familyi={F\bibinitperiod},
-           given={Node.js},
-           giveni={N\bibinitperiod}}}%
+        {{hash=d2888a6d37d96156f8a9fd96dd637e75}{%
+           family={Heise},
+           familyi={H\bibinitperiod},
+           given={Verlag\bibnamedelima Heinz},
+           giveni={V\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
       }
-      \strng{namehash}{804b6bedb1db2b625197202b6c72a6db}
-      \strng{fullhash}{804b6bedb1db2b625197202b6c72a6db}
-      \strng{bibnamehash}{804b6bedb1db2b625197202b6c72a6db}
-      \strng{authorbibnamehash}{804b6bedb1db2b625197202b6c72a6db}
-      \strng{authornamehash}{804b6bedb1db2b625197202b6c72a6db}
-      \strng{authorfullhash}{804b6bedb1db2b625197202b6c72a6db}
-      \field{sortinit}{F}
-      \field{sortinithash}{669c706c6f1fbf3b5a83d26f1d9e9e72}
+      \strng{namehash}{d2888a6d37d96156f8a9fd96dd637e75}
+      \strng{fullhash}{d2888a6d37d96156f8a9fd96dd637e75}
+      \strng{bibnamehash}{d2888a6d37d96156f8a9fd96dd637e75}
+      \strng{authorbibnamehash}{d2888a6d37d96156f8a9fd96dd637e75}
+      \strng{authornamehash}{d2888a6d37d96156f8a9fd96dd637e75}
+      \strng{authorfullhash}{d2888a6d37d96156f8a9fd96dd637e75}
+      \field{sortinit}{H}
+      \field{sortinithash}{5f15a7bc777ad49ff15aa4d2831b1681}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{title}{Node.js}
+      \field{title}{Heise online Newsticker}
+      \field{year}{2019}
       \verb{urlraw}
-      \verb https://nodejs.org/en/
+      \verb https://www.heise.de/newsticker/
       \endverb
       \verb{url}
-      \verb https://nodejs.org/en/
+      \verb https://www.heise.de/newsticker/
       \endverb
     \endentry
     \entry{dotenv}{online}{}
@@ -96,6 +97,55 @@
       \endverb
       \verb{url}
       \verb https://github.com/motdotla/dotenv
+      \endverb
+    \endentry
+    \entry{nodejs}{online}{}
+      \name{author}{1}{}{%
+        {{hash=6f965774e9941cd00d986a26eaeac316}{%
+           family={Node.js\bibnamedelima Foundation},
+           familyi={N\bibinitperiod}}}%
+      }
+      \strng{namehash}{6f965774e9941cd00d986a26eaeac316}
+      \strng{fullhash}{6f965774e9941cd00d986a26eaeac316}
+      \strng{bibnamehash}{6f965774e9941cd00d986a26eaeac316}
+      \strng{authorbibnamehash}{6f965774e9941cd00d986a26eaeac316}
+      \strng{authornamehash}{6f965774e9941cd00d986a26eaeac316}
+      \strng{authorfullhash}{6f965774e9941cd00d986a26eaeac316}
+      \field{sortinit}{N}
+      \field{sortinithash}{f7242c3ed3dc50029fca1be76c497c7c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Node.js}
+      \verb{urlraw}
+      \verb https://nodejs.org/en/
+      \endverb
+      \verb{url}
+      \verb https://nodejs.org/en/
+      \endverb
+    \endentry
+    \entry{owm}{online}{}
+      \name{author}{1}{}{%
+        {{hash=1e56101a187ed48f4384b9ae14c76f08}{%
+           family={OpenWeatherMap},
+           familyi={O\bibinitperiod}}}%
+      }
+      \strng{namehash}{1e56101a187ed48f4384b9ae14c76f08}
+      \strng{fullhash}{1e56101a187ed48f4384b9ae14c76f08}
+      \strng{bibnamehash}{1e56101a187ed48f4384b9ae14c76f08}
+      \strng{authorbibnamehash}{1e56101a187ed48f4384b9ae14c76f08}
+      \strng{authornamehash}{1e56101a187ed48f4384b9ae14c76f08}
+      \strng{authorfullhash}{1e56101a187ed48f4384b9ae14c76f08}
+      \field{sortinit}{O}
+      \field{sortinithash}{dad3efd0836470093a7b4a7bb756eb8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{OpenWeatherMap}
+      \field{year}{2012--2019}
+      \verb{urlraw}
+      \verb https://openweathermap.org/
+      \endverb
+      \verb{url}
+      \verb https://openweathermap.org/
       \endverb
     \endentry
     \entry{express}{online}{}
@@ -131,6 +181,32 @@
       \verb https://expressjs.com/
       \endverb
     \endentry
+    \entry{chartjs}{online}{}
+      \name{author}{1}{}{%
+        {{hash=67da729868d97149abc1c36acd956171}{%
+           family={Timberg},
+           familyi={T\bibinitperiod},
+           given={Evert},
+           giveni={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{67da729868d97149abc1c36acd956171}
+      \strng{fullhash}{67da729868d97149abc1c36acd956171}
+      \strng{bibnamehash}{67da729868d97149abc1c36acd956171}
+      \strng{authorbibnamehash}{67da729868d97149abc1c36acd956171}
+      \strng{authornamehash}{67da729868d97149abc1c36acd956171}
+      \strng{authorfullhash}{67da729868d97149abc1c36acd956171}
+      \field{sortinit}{T}
+      \field{sortinithash}{6f7aff9db9dcfeb7f95fd5bbd2f78df9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Chart.js}
+      \verb{urlraw}
+      \verb https://www.chartjs.org/
+      \endverb
+      \verb{url}
+      \verb https://www.chartjs.org/
+      \endverb
+    \endentry
     \entry{vue}{online}{}
       \name{author}{1}{}{%
         {{hash=c181205d8e6010f589e6c498afe0fe11}{%
@@ -159,9 +235,6 @@
       \endverb
     \endentry
   \enddatalist
-  \missing{chartjs}
-  \missing{heise}
-  \missing{owm}
 \endrefsection
 \endinput
 

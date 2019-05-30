@@ -1,21 +1,19 @@
 [0] Config.pm:304> INFO - This is Biber 2.12
 [0] Config.pm:307> INFO - Logfile is 'article_3.blg'
-[25] biber:315> INFO - === Do Mai 30, 2019, 22:10:51
-[41] Biber.pm:371> INFO - Reading 'article_3.bcf'
-[94] Biber.pm:889> INFO - Found 8 citekeys in bib section 0
-[104] Biber.pm:4093> INFO - Processing section 0
-[112] Biber.pm:4254> INFO - Looking for bibtex format file 'literatur.bib' for section 0
-[113] bibtex.pm:1523> INFO - LaTeX decoding ...
-[117] bibtex.pm:1340> INFO - Found BibTeX data source 'literatur.bib'
-[118] Utils.pm:193> WARN - year field '2014--2019' in entry 'vue' is not an integer - this will probably not sort properly.
-[130] Utils.pm:193> WARN - year field '2014--present' in entry 'sequelize' is not an integer - this will probably not sort properly.
-[133] Utils.pm:193> WARN - I didn't find a database entry for 'owm' (section 0)
-[133] Utils.pm:193> WARN - I didn't find a database entry for 'heise' (section 0)
-[133] Utils.pm:193> WARN - I didn't find a database entry for 'chartjs' (section 0)
-[143] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[143] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
-[143] Biber.pm:3921> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'de-DE'
-[143] Biber.pm:3927> INFO - No sort tailoring available for locale 'de-DE'
-[149] bbl.pm:636> INFO - Writing 'article_3.bbl' with encoding 'UTF-8'
-[151] bbl.pm:739> INFO - Output to article_3.bbl
-[151] Biber.pm:110> INFO - WARNINGS: 5
+[26] biber:315> INFO - === Do Mai 30, 2019, 22:12:59
+[43] Biber.pm:371> INFO - Reading 'article_3.bcf'
+[97] Biber.pm:889> INFO - Found 8 citekeys in bib section 0
+[108] Biber.pm:4093> INFO - Processing section 0
+[116] Biber.pm:4254> INFO - Looking for bibtex format file 'literatur.bib' for section 0
+[117] bibtex.pm:1523> INFO - LaTeX decoding ...
+[122] bibtex.pm:1340> INFO - Found BibTeX data source 'literatur.bib'
+[123] Utils.pm:193> WARN - year field '2014--2019' in entry 'vue' is not an integer - this will probably not sort properly.
+[135] Utils.pm:193> WARN - year field '2012--2019' in entry 'owm' is not an integer - this will probably not sort properly.
+[145] Utils.pm:193> WARN - year field '2014--present' in entry 'sequelize' is not an integer - this will probably not sort properly.
+[159] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
+[159] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[159] Biber.pm:3921> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'de-DE'
+[160] Biber.pm:3927> INFO - No sort tailoring available for locale 'de-DE'
+[168] bbl.pm:636> INFO - Writing 'article_3.bbl' with encoding 'UTF-8'
+[170] bbl.pm:739> INFO - Output to article_3.bbl
+[170] Biber.pm:110> INFO - WARNINGS: 3
