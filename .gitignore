@@ -11,3 +11,9 @@
 *.cb
 *.cb2
 .*.lb
+*.pdf
+*.bbl
+*.bcf
+*.blg
+*.run.xml
+*.synctex.gz
