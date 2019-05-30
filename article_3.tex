@@ -1,4 +1,4 @@
-% chktex-file 13
+% chktex-file 13 chktex-file 26
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Stylish Article
 % LaTeX Template
@@ -27,9 +27,8 @@
 \usepackage{csquotes}
 
 \usepackage{biblatex} 
-\addbibresource{../literatur.bib}
-
-\usepackage{lipsum} % Required to insert dummy text. To be removed otherwise
+\usepackage{indentfirst}
+\addbibresource{literatur.bib}
 
 %----------------------------------------------------------------------------------------
 %	COLUMNS
@@ -74,12 +73,12 @@
 
 \Abstract{Die vorliegende Dokumentation gibt einen kurzen Einblick in das Projekt \enquote{Web-Dashboard} geben, und dabei insbesondere auf folgende Architekturelemente eingehen:
 \begin{itemize}
-	\item Allgemeine Struktur
-	\item Anbindung der Openweathermap-API
-	\item Anbindung der Wikipedia-API und der Watson TTS-API
-	\item Einbindung eines RSS-Feeds
-	\item Einbindung eines Mastodon-Feeds inklusive Authentifizierung ggü. der Mastodon-Instanz
-	\item Einbindung der VVS-API
+    \item Allgemeine Struktur
+    \item Anbindung der Openweathermap-API
+    \item Anbindung der Wikipedia-API und der Watson TTS-API
+    \item Einbindung eines RSS-Feeds
+    \item Einbindung eines Mastodon-Feeds inklusive Authentifizierung ggü.\ der Mastodon-Instanz
+    \item Einbindung der VVS-API
 \end{itemize}
 }
 
@@ -102,51 +101,56 @@
 \section*{Einleitung} % The \section*{} command stops section numbering
 
 \addcontentsline{toc}{section}{Einleitung} % Adds this section to the table of contents
-Aufgabenstellung war, mittels Webtechnologien ein Portal zu entwickeln, dass einige dynamische/interaktive Funktionalitäten - insbesondere unter Einbindung externer Schnittstellen - mit einbindet. 
+Aufgabenstellung war, mittels Webtechnologien ein Portal zu entwickeln, dass einige dynamische/interaktive Funktionalitäten --- insbesondere unter Einbindung externer Schnittstellen --- mit einbindet. 
 
 %------------------------------------------------
 \section{Grundlegende Architektur}
-Das Projekt ist in zwei Module aufgeteilt: \textbf{Frontend} und \textbf{Backend}. \\ Das Frontend ist mit HTML, CSS und JavaScript realisiert und läuft komplett Clientseitig, also im Browser. Teilweise kommt das Framework \enquote{Vue} zum Einsatz. \\ Das Backend ist ebenfalls in JavaScript mithilfe der Laufzeitumgebung Node.JS realisiert, und übernimmt die Auslieferung des Frontendes, sowie Authentifizierungs- und Proxyaufgaben. Für die HTTP-Schnittstelle kommt das Node-Modul Express zum Einsatz.
+Das Projekt ist in zwei Module aufgeteilt: \textbf{Frontend} und \textbf{Backend}.
+
+Das Frontend ist mit HTML, CSS und JavaScript realisiert und läuft komplett Clientseitig, also im Browser. Teilweise kommt das Framework \enquote{Vue}~\cite{vue} zum Einsatz.
+
+Das Backend ist ebenfalls in JavaScript mithilfe der Laufzeitumgebung Node.js~\cite{nodejs} realisiert und übernimmt die Auslieferung des Frontends sowie Authentifizierungs- und Proxyaufgaben. Für die HTTP-Schnittstelle kommt das Node-Modul Express~\cite{express} zum Einsatz.
 \section{Aufbau der Oberfläche}
+
 \section{Backend}
-Das Backend ist mittels express.js aufgebaut. Für die Authentifizierung gegenüber Mastodon-Instanzen kommt noch eine Dateibasierte SQLITE-Datenbank mit der Abstraktionsschicht \enquote{Sequelize} zum Einsatz, die Applikations-ID und Secret speichert. Weiterhin ist der HTTP-POST-Endpunkt \enquote{/getTTS} vorhanden, der einen Proxy zur IBM-Watson-TTS-API bildet und die Authentifizierung übernimmt. \\
-Die Konfiguration - insbesondere die der API-Schlüssel - erfolgt über Umgebungsvariablen, die mittels dem Modul \enquote{dotenv} aus dem lokalen .env-File geladen werden. Damit wird eine Trennung von Code/Applikation und Konfigurationsdaten erreicht - eine Beispieldatei für .env (.exampleenv) ist jedoch weiterhin vorhanden.
+Das Backend ist mittels express.js~\cite{express} aufgebaut. Für die Authentifizierung gegenüber Mastodon-Instanzen kommt noch eine Dateibasierte SQLITE-Datenbank mit der Abstraktionsschicht \enquote{Sequelize}~\cite{sequelize} zum Einsatz, die Applikations-ID und Secret speichert. Weiterhin ist der HTTP-POST-Endpunkt \enquote{/getTTS} vorhanden, der einen Proxy zur IBM-Watson-TTS-API bildet und die Authentifizierung übernimmt.
+
+Die Konfiguration --- insbesondere die der API-Schlüssel --- erfolgt über Umgebungsvariablen, die mittels dem Modul \enquote{dotenv}~\cite{dotenv} aus der lokalen Datei \texttt{.env} geladen werden. Damit wird eine Trennung von Code/Applikation und Konfigurationsdaten erreicht --- eine Beispieldatei für \texttt{.env} (\texttt{.exampleenv}) ist jedoch weiterhin vorhanden.
 \section{Integration von Mastodon}
 Mastodon ist ein Twitterähnliches, verteiltes soziales Netzwerk. Verteilt bedeutet, dass es beliebig viele Instanzen gibt, deren Nutzer über das sogenannte \enquote{ActivityPub}-Protocol miteinander interagieren können. Ziel der Implementierung ist es, dem Nutzer seine persönliche Timeline (die letzten Posts) in einer Kachel anzuzeigen.
 \subsection{Authentifizierung}
 Um die nichtöffentlichen Teile der Mastodon-REST-API nutzen zu können, muss sich der Nutzer dem Server gegenüber authentifizieren. Eine zusätzliche Schwierigkeit ist, dass dies nicht gegenüber einem festen Endpunkt erfolgt, sondern davon abhängt, bei welchem Server (auch: Instanz) der Nutzer registriert ist. Beispiele für solche Instanzen sind \enquote{chaos.social} und \enquote{mastodon.social}. \\
-Der grundlegende Ablauf ist hierbei in Bild \ref{fig:mastodon1} zu sehen. Jede Applikation bekommt von der Mastodon-Instanz eine ID und ein Secret, welches vom Backend automatisch bezogen und gespeichert wird. Hierbei unterstützt das Backend beliebig viele Instanzen, es kommt eine sqlite-Datenbank zum Einsatz (siehe: backend/models/appData.js).\\ Der Client leitet mit Kenntnis der App-ID zur Authentifizierungsseite weiter, bei der der Nutzer unserer App Rechte vergeben oder ablehnen kann. Zurück kommt ein Code, mit dem das Backend (unter Zuhilfenahme des secrets und der ID) einen Token abholen kann. Dieser wird im Browser lokal gespeichert (Cookies).
+Der grundlegende Ablauf ist hierbei in Bild~\ref{fig:mastodon1} zu sehen. Jede Applikation bekommt von der Mastodon-Instanz eine ID und ein Secret, welches vom Backend automatisch bezogen und gespeichert wird. Hierbei unterstützt das Backend beliebig viele Instanzen, es kommt eine sqlite-Datenbank zum Einsatz (siehe: backend/models/appData.js).
+
+Der Client leitet mit Kenntnis der App-ID zur Authentifizierungsseite weiter, bei der der Nutzer unserer App Rechte vergeben oder ablehnen kann. Zurück kommt ein Code, mit dem das Backend (unter Zuhilfenahme des secrets und der ID) einen Token abholen kann. Dieser wird im Browser lokal als Cookie gespeichert.
 \subsection{Anzeige der Timeline}
-Das Frontend führt nach der Authentifizierung alle Kommunikation mit dem Mastodon-Server selbstständig durch. Hierzu wird, entweder das Formular zur Authentifizierung angezeigt, oder per REST die Posts aus der Timeline abgeholt. Diese werden dann, in ein HTML gerendert, in die Kachel geschrieben. Es kommt die fetch-API für HTTP-Anfragen zum Einsatz. \\
-Die Funktion ist in Bild \ref{fig:demo1}, \ref{fig:demo2} und \ref{fig:demo3} zu sehen. Die Implementierung erfolgt in der \enquote{mastodon.mjs}.
+Das Frontend führt nach der Authentifizierung alle Kommunikation mit dem Mastodon-Server selbstständig durch. Hierzu wird, entweder das Formular zur Authentifizierung angezeigt, oder per REST die Posts aus der Timeline abgeholt. Diese werden dann, in ein HTML gerendert, in die Kachel geschrieben. Es kommt die fetch-API für HTTP-Anfragen zum Einsatz.
+
+Die Funktion ist in Bild~\ref{fig:demo1},~\ref{fig:demo2} und~\ref{fig:demo3} zu sehen. Die Implementierung erfolgt in der \enquote{\texttt{mastodon.mjs}}.
 \section{Fazit}
 Das vorliegende Projekt hat uns sowohl auf inhaltlicher als auch auf persönlicher Ebene weiter gebracht und wir konnten unsere Erfahrungen im Bereich Webtechnologien stark ausbauen.
 \subsection{Projektverlauf}
-Das Projekt lief neben einigen wenigen Stolpersteinen relativ reibungslos ab. Wie bei den meisten Gruppenarbeit war es auch bei dieser nicht immer leicht eine faire Aufteilung der Arbeitspakete zu gewährleisten. Für die Zukunft mit, dass wir zu einem früheren Zeitpunkt Methoden aus dem Projektmanagement einsetzten wollen um einen reibungslosen Ablauf, faire Arbeitsteilung und die Vermeidung von doppelter Arbeit zu gewährleisten.
+Das Projekt lief neben einigen wenigen Stolpersteinen ohne größere Hindernisse ab. Wie bei den meisten Gruppenarbeiten war es auch bei dieser nicht immer leicht, eine faire Aufteilung der Arbeitspakete zu gewährleisten. Für die Zukunft nehmen wir mit, dass wir zu einem früheren Zeitpunkt Methoden aus dem Projektmanagement einsetzen wollen, um einen reibungslosen Ablauf, faire Arbeitsteilung und die Vermeidung von doppelter Arbeit zu gewährleisten.
 \subsection{Technologien}
-Vor allem die Arbeit mit dem JavaScript Framework \enquote{Vue} war für uns alle neu. Das Framework hat uns aber durch den geringen Overhead und die einfache Handhabe sehr überzeugt. Die Arbeit mit \enquote{Vue} hat uns weitergebracht und uns einen neuen Horizont in der Webentwicklung eröffnet. 
-Auch war die Arbeit mit der Mastodon API neu und die CSS wurde auch noch von keinem von uns in der Tiefe wie in diesem Projekt verwendet. Alles in allem kann gesagt werden, dass wir einige neue Technologien lernen und schätzen gelernt haben und einige Alte noch besser verstanden haben.
+Vor allem die Arbeit mit dem JavaScript-Framework \enquote{Vue}~\cite{vue} war für uns alle neu. Das Framework hat uns aber durch den geringen Overhead und die einfache Handhabe sehr überzeugt. Die Arbeit mit \enquote{Vue} hat uns weitergebracht und uns einen neuen Horizont in der Webentwicklung eröffnet. 
+Auch war die Arbeit mit der Mastodon API neu und CSS wurde auch noch von keinem von uns in der Tiefe wie in diesem Projekt verwendet. Alles in allem kann gesagt werden, dass wir einige neue Technologien lernen und schätzen gelernt haben und einige Alte noch besser verstanden haben.
 
 \begin{figure*}
 \includegraphics[width=\linewidth]{mastodon.jpg}
-\caption{Mastodon Authentication}
-\label{fig:mastodon1}
+\caption{Mastodon Authentication}\label{fig:mastodon1}
 \end{figure*}
 \begin{figure*}
-	\includegraphics[width=\linewidth]{images/1.png}
-	\caption{Dashboard mit inaktivem Mastodon}
-	\label{fig:demo1}
+    \includegraphics[width=\linewidth]{images/1.png}
+    \caption{Dashboard mit inaktivem Mastodon}\label{fig:demo1}
 \end{figure*}
 \begin{figure*}
 \includegraphics[width=\linewidth]{images/2.png}
-\caption{Mastodon Authentifizierung bei chaos.social}
-\label{fig:demo2}
+\caption{Mastodon Authentifizierung bei chaos.social}\label{fig:demo2}
 \end{figure*}
 
 \begin{figure*}
-	\includegraphics[width=\linewidth]{images/3.png}
-	\caption{Demo, Mastodon aktiv}
-	\label{fig:demo3}
+    \includegraphics[width=\linewidth]{images/3.png}
+    \caption{Demo, Mastodon aktiv}\label{fig:demo3}
 \end{figure*}
 \subsection{Schwierigkeiten und Komplexität}
 Wirkliche Schwierigkeiten gab es bei der Implementierung nicht. Zu beachten ist natürlich, dass man durch Authentifizierung viel mehr Datenflüsse und auch Zustände hat, als es in einem reinen REST-API-Aufruf der Fall wäre. Insbesondere die Einbindung des Backends ist hier zu erwähnen, da Secrets auf keinen Fall zum Client gelangen dürfen.
