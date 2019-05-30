@@ -159,6 +159,9 @@
       \endverb
     \endentry
   \enddatalist
+  \missing{chartjs}
+  \missing{heise}
+  \missing{owm}
 \endrefsection
 \endinput
 

@@ -27,6 +27,12 @@
 \usepackage{csquotes}
 
 \usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  breaklines=true,
+  postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+}
 
 \usepackage{biblatex} 
 \usepackage{indentfirst}
@@ -103,17 +109,29 @@
 \section*{Einleitung} % The \section*{} command stops section numbering
 
 \addcontentsline{toc}{section}{Einleitung} % Adds this section to the table of contents
-Aufgabenstellung war, mittels Webtechnologien ein Portal zu entwickeln, dass einige dynamische/interaktive Funktionalitäten --- insbesondere unter Einbindung externer Schnittstellen --- mit einbindet. 
+Aufgabenstellung war mittels Webtechnologien ein Portal zu entwickeln, welches einige dynamische/interaktive Funktionalitäten --- insbesondere unter Einbindung externer Schnittstellen --- einbindet.
 
 %------------------------------------------------
 \section{Grundlegende Architektur}
 Das Projekt ist in zwei Module aufgeteilt: \textbf{Frontend} und \textbf{Backend}.
 
-Das Frontend ist mit HTML, CSS und JavaScript realisiert und läuft komplett Clientseitig, also im Browser. Teilweise kommt das Framework \enquote{Vue}~\cite{vue} zum Einsatz.
+Das Frontend ist in HTML, CSS und JavaScript realisiert und läuft komplett Clientseitig, also im Browser. Teilweise kommt das Framework \enquote{Vue}~\cite{vue} zum Einsatz.
 
 Das Backend ist ebenfalls in JavaScript mithilfe der Laufzeitumgebung Node.js~\cite{nodejs} realisiert und übernimmt die Auslieferung des Frontends sowie Authentifizierungs- und Proxyaufgaben. Für die HTTP-Schnittstelle kommt das Node-Modul Express~\cite{express} zum Einsatz.
 \section{Aufbau der Oberfläche}
-
+Die Idee des Frontends ist eine Art Dashboard, worüber verschiedene Dienste auf einem Blick verwendet werden können. Es sind mehrere Kacheln implementiert, jede Kachel beinhaltet genau einen Dienst.
+\subsection{Wetterkachel}
+Die Wetterkachel beinhaltet das aktuelle Wetter mit Temperatur, Luftfeuchtigkeit und Wolkendichte. Die Daten hierfür werden von OpenWeatherMap~\cite{owm} bezogen und aufbereitet.
+\subsection{Wikipediakachel}
+Die Wikipediakachel ermöglicht es, die Einleitung eines Artikels anzeigen und vorlesen zu lassen. Die Daten zum Anzeigen werden von der Wikipedia, die zum Vorlesen von der IBM-Watson-API bezogen und aufbereitet.
+\subsection{RSS-Feed-Kachel}
+Die RSS-Feed-Kachel beinhaltet die neuesten Nachrichten von Heise~online~\cite{heise}, dafür wird der RSS-Feed bezogen und aufbereitet.
+\subsection{Wettervorhersagekachel}
+Die Kachel für die Wettervorhersage zeigt die Minimal- und Maximaltemperaturen für die nächsten 5 Tage an. Die Daten werden ebenfalls von OpenWeatherMap~\cite{owm} bezogen. Zur Darstellung wird das Framework \enquote{Chart.js}~\cite{chartjs} verwendet.
+\subsection{VVS-Kachel}
+Die VVS-Kachel zeigt die nächsten Abfahrten von der Haltestelle Stadtmitte an. Hierfür werden die Daten vom VVS bezogen und aufbereitet.
+\subsection{Mastodonkachel}
+Falls ein Mastodon-Account vorhanden ist, kann hier die eigene Mastodon-Timeline angezeigt werden. Die Daten werden vom jeweiligen Mostodonserver bezogen und aufbereitet.
 \section{Backend}
 Das Backend ist mittels express.js~\cite{express} aufgebaut. Für die Authentifizierung gegenüber Mastodon-Instanzen kommt noch eine Dateibasierte SQLITE-Datenbank mit der Abstraktionsschicht \enquote{Sequelize}~\cite{sequelize} zum Einsatz, die Applikations-ID und Secret speichert. Weiterhin ist der HTTP-POST-Endpunkt \enquote{/getTTS} vorhanden, der einen Proxy zur IBM-Watson-TTS-API bildet und die Authentifizierung übernimmt.
 
@@ -121,20 +139,22 @@ Die Konfiguration --- insbesondere die der API-Schlüssel --- erfolgt über Umge
 \section{Integration von Mastodon}
 Mastodon ist ein Twitterähnliches, verteiltes soziales Netzwerk. Verteilt bedeutet, dass es beliebig viele Instanzen gibt, deren Nutzer über das sogenannte \enquote{ActivityPub}-Protocol miteinander interagieren können. Ziel der Implementierung ist es, dem Nutzer seine persönliche Timeline (die letzten Posts) in einer Kachel anzuzeigen.
 \subsection{Authentifizierung}
-Um die nichtöffentlichen Teile der Mastodon-REST-API nutzen zu können, muss sich der Nutzer dem Server gegenüber authentifizieren. Eine zusätzliche Schwierigkeit ist, dass dies nicht gegenüber einem festen Endpunkt erfolgt, sondern davon abhängt, bei welchem Server (auch: Instanz) der Nutzer registriert ist. Beispiele für solche Instanzen sind \enquote{chaos.social} und \enquote{mastodon.social}. \\
-Der grundlegende Ablauf ist hierbei in Bild~\ref{fig:mastodon1} zu sehen. Jede Applikation bekommt von der Mastodon-Instanz eine ID und ein Secret, welches vom Backend automatisch bezogen und gespeichert wird. Hierbei unterstützt das Backend beliebig viele Instanzen, es kommt eine sqlite-Datenbank zum Einsatz (siehe: backend/models/appData.js).
+Um die nichtöffentlichen Teile der Mastodon-REST-API nutzen zu können, muss sich der Nutzer dem Server gegenüber authentifizieren. Eine zusätzliche Schwierigkeit ist, dass dies nicht gegenüber einem festen Endpunkt erfolgt, sondern davon abhängt, bei welchem Server (auch: Instanz) der Nutzer registriert ist. Beispiele für solche Instanzen sind \enquote{\texttt{chaos.social}} und \enquote{\texttt{mastodon.social}}.
+
+Der grundlegende Ablauf ist hierbei in Bild~\ref{fig:mastodon1} zu sehen. Jede Applikation bekommt von der Mastodon-Instanz eine ID und ein Secret, welches vom Backend automatisch bezogen und gespeichert wird. Hierbei unterstützt das Backend beliebig viele Instanzen, es kommt eine sqlite-Datenbank zum Einsatz (siehe: \texttt{backend/models/appData.js}).
 
 Der Client leitet mit Kenntnis der App-ID zur Authentifizierungsseite weiter, bei der der Nutzer unserer App Rechte vergeben oder ablehnen kann. Zurück kommt ein Code, mit dem das Backend (unter Zuhilfenahme des secrets und der ID) einen Token abholen kann. Dieser wird im Browser lokal als Cookie gespeichert.
 \subsection{Anzeige der Timeline}
-Das Frontend führt nach der Authentifizierung alle Kommunikation mit dem Mastodon-Server selbstständig durch. Hierzu wird, entweder das Formular zur Authentifizierung angezeigt, oder per REST die Posts aus der Timeline abgeholt. Diese werden dann, in ein HTML gerendert, in die Kachel geschrieben. Es kommt die fetch-API für HTTP-Anfragen zum Einsatz.
+Das Frontend führt nach der Authentifizierung alle Kommunikation mit dem Mastodon-Server selbstständig durch. Hierzu wird, entweder das Formular zur Authentifizierung angezeigt, oder per REST die Posts aus der Timeline abgeholt.
+
+Diese werden dann, in ein HTML gerendert, in die Kachel geschrieben. Es kommt die fetch-API für HTTP-Anfragen zum Einsatz.
 
 Die Funktion ist in Bild~\ref{fig:demo1},~\ref{fig:demo2} und~\ref{fig:demo3} zu sehen. Die Implementierung erfolgt in der \enquote{\texttt{mastodon.mjs}}.
 
 \section{Kurzanleitung}
 Um die Software zu erhalten müssen zuerst die beiden Git Repositories für das Frontend und das Backend heruntergeladen werden. Dies kann zum Beispiel durch den diese Befehle erfolgen:
 \begin{lstlisting}
-git clone https://github.com/activityp
-  ub-frontend/backend.git
+git clone https://github.com/activitypub-frontend/backend.git
 git submodule update --init --recursive
 \end{lstlisting}
 Mit dem zweiten Befehl wird das Frontend Repository in den gewünschten Ordner im Backend platziert.

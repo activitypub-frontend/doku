@@ -1998,10 +1998,14 @@
     <bcf:citekey order="1">vue</bcf:citekey>
     <bcf:citekey order="2">nodejs</bcf:citekey>
     <bcf:citekey order="3">express</bcf:citekey>
-    <bcf:citekey order="4">express</bcf:citekey>
-    <bcf:citekey order="5">sequelize</bcf:citekey>
-    <bcf:citekey order="6">dotenv</bcf:citekey>
-    <bcf:citekey order="7">vue</bcf:citekey>
+    <bcf:citekey order="4">owm</bcf:citekey>
+    <bcf:citekey order="5">heise</bcf:citekey>
+    <bcf:citekey order="6">owm</bcf:citekey>
+    <bcf:citekey order="7">chartjs</bcf:citekey>
+    <bcf:citekey order="8">express</bcf:citekey>
+    <bcf:citekey order="9">sequelize</bcf:citekey>
+    <bcf:citekey order="10">dotenv</bcf:citekey>
+    <bcf:citekey order="11">vue</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">
