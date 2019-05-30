@@ -26,6 +26,8 @@
 \usepackage[ngerman]{babel} % Specify a different language here - english by default
 \usepackage{csquotes}
 
+\usepackage{listings}
+
 \usepackage{biblatex} 
 \usepackage{indentfirst}
 \addbibresource{literatur.bib}
@@ -127,6 +129,27 @@ Der Client leitet mit Kenntnis der App-ID zur Authentifizierungsseite weiter, be
 Das Frontend führt nach der Authentifizierung alle Kommunikation mit dem Mastodon-Server selbstständig durch. Hierzu wird, entweder das Formular zur Authentifizierung angezeigt, oder per REST die Posts aus der Timeline abgeholt. Diese werden dann, in ein HTML gerendert, in die Kachel geschrieben. Es kommt die fetch-API für HTTP-Anfragen zum Einsatz.
 
 Die Funktion ist in Bild~\ref{fig:demo1},~\ref{fig:demo2} und~\ref{fig:demo3} zu sehen. Die Implementierung erfolgt in der \enquote{\texttt{mastodon.mjs}}.
+
+\section{Kurzanleitung}
+Um die Software zu erhalten müssen zuerst die beiden Git Repositories für das Frontend und das Backend heruntergeladen werden. Dies kann zum Beispiel durch den diese Befehle erfolgen:
+\begin{lstlisting}
+git clone https://github.com/activityp
+  ub-frontend/backend.git
+git submodule update --init --recursive
+\end{lstlisting}
+Mit dem zweiten Befehl wird das Frontend Repository in den gewünschten Ordner im Backend platziert.
+Um alle nötigen Abhängigkeiten herunter zu laden muss folgendes Kommando im Wurzelverzeichnis des Backend Ordners ausgeführt werden:
+\begin{lstlisting}
+npm install
+\end{lstlisting}
+Als nächstes muss die die Datei .exampleenv in .env umbenannt werden und es müssen die entsprechenden API Token und Zugangsdaten eingegeben werden um die externen Dienste ansprechen zu können.
+Mit einem der Folgenden Kommandos kann dann das Backend gestartet werden:
+\begin{lstlisting}
+npm run debug
+node server.js
+\end{lstlisting}
+Nun ist der Server unter localhost auf Port 5000 erreichbar und das Frontend kann intuitiv bedient werden.
+Anmerkung: Die Mastodon OAUTH Funktionalität funktioniert möglicherweise nur im dashboard.tinf17.in-deployment, da eine Weiterleitung nötig ist.
 \section{Fazit}
 Das vorliegende Projekt hat uns sowohl auf inhaltlicher als auch auf persönlicher Ebene weiter gebracht und wir konnten unsere Erfahrungen im Bereich Webtechnologien stark ausbauen.
 \subsection{Projektverlauf}
@@ -134,7 +157,8 @@ Das Projekt lief neben einigen wenigen Stolpersteinen ohne größere Hindernisse
 \subsection{Technologien}
 Vor allem die Arbeit mit dem JavaScript-Framework \enquote{Vue}~\cite{vue} war für uns alle neu. Das Framework hat uns aber durch den geringen Overhead und die einfache Handhabe sehr überzeugt. Die Arbeit mit \enquote{Vue} hat uns weitergebracht und uns einen neuen Horizont in der Webentwicklung eröffnet. 
 Auch war die Arbeit mit der Mastodon API neu und CSS wurde auch noch von keinem von uns in der Tiefe wie in diesem Projekt verwendet. Alles in allem kann gesagt werden, dass wir einige neue Technologien lernen und schätzen gelernt haben und einige Alte noch besser verstanden haben.
-
+\subsection{Schwierigkeiten und Komplexität}
+Wirkliche Schwierigkeiten gab es bei der Implementierung nicht. Zu beachten ist natürlich, dass man durch Authentifizierung viel mehr Datenflüsse und auch Zustände hat, als es in einem reinen REST-API-Aufruf der Fall wäre. Insbesondere die Einbindung des Backends ist hier zu erwähnen, da Secrets auf keinen Fall zum Client gelangen dürfen.
 \begin{figure*}
 \includegraphics[width=\linewidth]{mastodon.jpg}
 \caption{Mastodon Authentication}\label{fig:mastodon1}
@@ -152,8 +176,8 @@ Auch war die Arbeit mit der Mastodon API neu und CSS wurde auch noch von keinem 
     \includegraphics[width=\linewidth]{images/3.png}
     \caption{Demo, Mastodon aktiv}\label{fig:demo3}
 \end{figure*}
-\subsection{Schwierigkeiten und Komplexität}
-Wirkliche Schwierigkeiten gab es bei der Implementierung nicht. Zu beachten ist natürlich, dass man durch Authentifizierung viel mehr Datenflüsse und auch Zustände hat, als es in einem reinen REST-API-Aufruf der Fall wäre. Insbesondere die Einbindung des Backends ist hier zu erwähnen, da Secrets auf keinen Fall zum Client gelangen dürfen.
+
+
 %\begin{figure}[ht]\centering % Using \begin{figure*} makes the figure take up the entire width of the page
 %\includegraphics[width=\linewidth]{view}
 %\caption{Wide Picture}
