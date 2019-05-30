@@ -115,9 +115,9 @@ Das Backend ist ebenfalls in JavaScript mithilfe der Laufzeitumgebung Node.js~\c
 \section{Aufbau der Oberfläche}
 
 \section{Backend}
-Das Backend ist mittels express.js~\cite{express} aufgebaut. Für die Authentifizierung gegenüber Mastodon-Instanzen kommt noch eine Dateibasierte SQLITE-Datenbank mit der Abstraktionsschicht \enquote{Sequelize}~\cite{sequelize} zum Einsatz, die Applikations-ID und Secret speichert. Weiterhin ist der HTTP-POST-Endpunkt \enquote{/getTTS} vorhanden, der einen Proxy zur IBM-Watson-TTS-API bildet und die Authentifizierung übernimmt.
-
-Die Konfiguration --- insbesondere die der API-Schlüssel --- erfolgt über Umgebungsvariablen, die mittels dem Modul \enquote{dotenv}~\cite{dotenv} aus der lokalen Datei \texttt{.env} geladen werden. Damit wird eine Trennung von Code/Applikation und Konfigurationsdaten erreicht --- eine Beispieldatei für \texttt{.env} (\texttt{.exampleenv}) ist jedoch weiterhin vorhanden.
+Das Backend ist mittels express.js~\cite{express} aufgebaut. Für die Authentifizierung gegenüber Mastodon-Instanzen kommt noch eine Dateibasierte SQLITE-Datenbank mit der Abstraktionsschicht \enquote{Sequelize}~\cite{sequelize} zum Einsatz, die Applikations-ID und Secret speichert. Weiterhin ist der HTTP-POST-Endpunkt \enquote{/getTTS} vorhanden, der einen Proxy zur IBM-Watson-TTS-API bildet und die Authentifizierung übernimmt. \\
+Ein simpler Proxy - /getFile" - ist für die Überwindung der CORS-Problematik beim Nachladen externer Ressourcen notwendig. \\
+Die Konfiguration --- insbesondere die der API-Schlüssel --- erfolgt über Umgebungsvariablen, die mittels dem Modul \enquote{dotenv}~\cite{dotenv} aus der lokalen Datei \texttt{.env} geladen werden. Damit wird eine Trennung von Code/Applikation und Konfigurationsdaten erreicht --- eine Beispieldatei für \texttt{.env} (\texttt{.exampleenv}) ist jedoch weiterhin vorhanden. \\
 \section{Integration von Mastodon}
 Mastodon ist ein Twitterähnliches, verteiltes soziales Netzwerk. Verteilt bedeutet, dass es beliebig viele Instanzen gibt, deren Nutzer über das sogenannte \enquote{ActivityPub}-Protocol miteinander interagieren können. Ziel der Implementierung ist es, dem Nutzer seine persönliche Timeline (die letzten Posts) in einer Kachel anzuzeigen.
 \subsection{Authentifizierung}
@@ -148,8 +148,8 @@ Mit einem der Folgenden Kommandos kann dann das Backend gestartet werden:
 npm run debug
 node server.js
 \end{lstlisting}
-Nun ist der Server unter localhost auf Port 5000 erreichbar und das Frontend kann intuitiv bedient werden.
-Anmerkung: Die Mastodon OAUTH Funktionalität funktioniert möglicherweise nur im dashboard.tinf17.in-deployment, da eine Weiterleitung nötig ist.
+Nun ist der Server unter localhost auf Port 5000 erreichbar und das Frontend kann intuitiv bedient werden.  \\
+Die Mastodon-Einbindung funktioniert  nur, wenn man das Dashboard über dashboard.tinf17.in aufruft, da in der App-Anmeldung eine Weiterleitung nötig ist. Zum Test ist ein Account bei einem beliebigen Mastodon-Netzwerk, z.B. mastodon.social, notwendig.
 \section{Fazit}
 Das vorliegende Projekt hat uns sowohl auf inhaltlicher als auch auf persönlicher Ebene weiter gebracht und wir konnten unsere Erfahrungen im Bereich Webtechnologien stark ausbauen.
 \subsection{Projektverlauf}
@@ -175,6 +175,11 @@ Wirkliche Schwierigkeiten gab es bei der Implementierung nicht. Zu beachten ist 
 \begin{figure*}
     \includegraphics[width=\linewidth]{images/3.png}
     \caption{Demo, Mastodon aktiv}\label{fig:demo3}
+\end{figure*}
+\begin{figure*}
+	\includegraphics[width=\linewidth]{systemcomponent.jpg}
+	\caption{Überblick über die Komponenten}
+	\label{fig:component}
 \end{figure*}
 
 
