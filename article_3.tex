@@ -72,7 +72,7 @@
 %	ABSTRACT
 %----------------------------------------------------------------------------------------
 
-\Abstract{Die vorliegende Dokumentation gibt einen kurzen Einblick in das Projekt "Web-Dashboard" geben, und dabei insbesondere auf folgende Architekturelemente eingehen:
+\Abstract{Die vorliegende Dokumentation gibt einen kurzen Einblick in das Projekt \enquote{Web-Dashboard} geben, und dabei insbesondere auf folgende Architekturelemente eingehen:
 \begin{itemize}
 	\item Allgemeine Struktur
 	\item Anbindung der Openweathermap-API
@@ -106,19 +106,21 @@ Aufgabenstellung war, mittels Webtechnologien ein Portal zu entwickeln, dass ein
 
 %------------------------------------------------
 \section{Grundlegende Architektur}
-Das Projekt ist in zwei Module aufgeteilt: \textbf{Frontend} und \textbf{Backend}. \\ Das Frontend ist mit HTML, CSS und JavaScript realisiert und läuft komplett Clientseitig, also im Browser. Teilweise kommt das Framework "Vue" zum Einsatz. \\ Das Backend ist ebenfalls in JavaScript mithilfe der Laufzeitumgebung Node.JS realisiert, und übernimmt die Auslieferung des Frontendes, sowie Authentifizierungs- und Proxyaufgaben. Für die HTTP-Schnittstelle kommt das Node-Modul Express zum Einsatz.
+Das Projekt ist in zwei Module aufgeteilt: \textbf{Frontend} und \textbf{Backend}. \\ Das Frontend ist mit HTML, CSS und JavaScript realisiert und läuft komplett Clientseitig, also im Browser. Teilweise kommt das Framework \enquote{Vue} zum Einsatz. \\ Das Backend ist ebenfalls in JavaScript mithilfe der Laufzeitumgebung Node.JS realisiert, und übernimmt die Auslieferung des Frontendes, sowie Authentifizierungs- und Proxyaufgaben. Für die HTTP-Schnittstelle kommt das Node-Modul Express zum Einsatz.
 \section{Aufbau der Oberfläche}
 \section{Backend}
-Das Backend ist mittels express.js aufgebaut. Für die Authentifizierung gegenüber Mastodon-Instanzen kommt noch eine Dateibasierte SQLITE-Datenbank mit der Abstraktionsschicht "Sequelize" zum Einsatz, die Applikations-ID und Secret speichert. Weiterhin ist der HTTP-POST-Endpunkt "/getTTS" vorhanden, der einen Proxy zur IBM-Watson-TTS-API bildet und die Authentifizierung übernimmt. \\
-Die Konfiguration - insbesondere die der API-Schlüssel - erfolgt über Umgebungsvariablen, die mittels dem Modul "dotenv" aus dem lokalen .env-File geladen werden. Damit wird eine Trennung von Code/Applikation und Konfigurationsdaten erreicht - eine Beispieldatei für .env (.exampleenv) ist jedoch weiterhin vorhanden.
+Das Backend ist mittels express.js aufgebaut. Für die Authentifizierung gegenüber Mastodon-Instanzen kommt noch eine Dateibasierte SQLITE-Datenbank mit der Abstraktionsschicht \enquote{Sequelize} zum Einsatz, die Applikations-ID und Secret speichert. Weiterhin ist der HTTP-POST-Endpunkt \enquote{/getTTS} vorhanden, der einen Proxy zur IBM-Watson-TTS-API bildet und die Authentifizierung übernimmt. \\
+Die Konfiguration - insbesondere die der API-Schlüssel - erfolgt über Umgebungsvariablen, die mittels dem Modul \enquote{dotenv} aus dem lokalen .env-File geladen werden. Damit wird eine Trennung von Code/Applikation und Konfigurationsdaten erreicht - eine Beispieldatei für .env (.exampleenv) ist jedoch weiterhin vorhanden.
 \section{Integration von Mastodon}
-Mastodon ist ein Twitterähnliches, verteiltes soziales Netzwerk. Verteilt bedeutet, dass es beliebig viele Instanzen gibt, deren Nutzer über das sogenannte "ActivityPub"-Protocol miteinander interagieren können. Ziel der Implementierung ist es, dem Nutzer seine persönliche Timeline (die letzten Posts) in einer Kachel anzuzeigen.
+Mastodon ist ein Twitterähnliches, verteiltes soziales Netzwerk. Verteilt bedeutet, dass es beliebig viele Instanzen gibt, deren Nutzer über das sogenannte \enquote{ActivityPub}-Protocol miteinander interagieren können. Ziel der Implementierung ist es, dem Nutzer seine persönliche Timeline (die letzten Posts) in einer Kachel anzuzeigen.
 \subsection{Authentifizierung}
-Um die nichtöffentlichen Teile der Mastodon-REST-API nutzen zu können, muss sich der Nutzer dem Server gegenüber authentifizieren. Eine zusätzliche Schwierigkeit ist, dass dies nicht gegenüber einem festen Endpunkt erfolgt, sondern davon abhängt, bei welchem Server (auch: Instanz) der Nutzer registriert ist. Beispiele für solche Instanzen sind "chaos.social" und "mastodon.social". \\
+Um die nichtöffentlichen Teile der Mastodon-REST-API nutzen zu können, muss sich der Nutzer dem Server gegenüber authentifizieren. Eine zusätzliche Schwierigkeit ist, dass dies nicht gegenüber einem festen Endpunkt erfolgt, sondern davon abhängt, bei welchem Server (auch: Instanz) der Nutzer registriert ist. Beispiele für solche Instanzen sind \enquote{chaos.social} und \enquote{mastodon.social}. \\
 Der grundlegende Ablauf ist hierbei in Bild \ref{fig:mastodon1} zu sehen. Jede Applikation bekommt von der Mastodon-Instanz eine ID und ein Secret, welches vom Backend automatisch bezogen und gespeichert wird. Hierbei unterstützt das Backend beliebig viele Instanzen, es kommt eine sqlite-Datenbank zum Einsatz (siehe: backend/models/appData.js).\\ Der Client leitet mit Kenntnis der App-ID zur Authentifizierungsseite weiter, bei der der Nutzer unserer App Rechte vergeben oder ablehnen kann. Zurück kommt ein Code, mit dem das Backend (unter Zuhilfenahme des secrets und der ID) einen Token abholen kann. Dieser wird im Browser lokal gespeichert (Cookies).
 \subsection{Anzeige der Timeline}
 Das Frontend führt nach der Authentifizierung alle Kommunikation mit dem Mastodon-Server selbstständig durch. Hierzu wird, entweder das Formular zur Authentifizierung angezeigt, oder per REST die Posts aus der Timeline abgeholt. Diese werden dann, in ein HTML gerendert, in die Kachel geschrieben. Es kommt die fetch-API für HTTP-Anfragen zum Einsatz. \\
-Die Funktion ist in Bild \ref{fig:demo1}, \ref{fig:demo2} und \ref{fig:demo3} zu sehen. Die Implementierung erfolgt in der "mastodon.mjs".
+Die Funktion ist in Bild \ref{fig:demo1}, \ref{fig:demo2} und \ref{fig:demo3} zu sehen. Die Implementierung erfolgt in der \enquote{mastodon.mjs}.
+\section{Evaluation und Fazit}
+
 \begin{figure*}
 \includegraphics[width=\linewidth]{mastodon.jpg}
 \caption{Mastodon Authentication}
